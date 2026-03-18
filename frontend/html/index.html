@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../css/index.css">
+<!-- Bootstrap JS (with Popper.js included) -->
+
+
+</head>
+<body >
+
+    <iframe class="header" src="../html/header.html" style="border:none;width:100%;"></iframe>
+
+<h3 id="type-header">CHOOSE TYPE : </h3>
+
+<div class="type-container">
+ 
+<button id="type01">
+<p>📏</p>
+<h3>LENGTH</h3>
+</button>
+ 
+<button id="type04">
+<p>🥛</p>
+<h3>VOLUME</h3>
+</button>
+ 
+<button id="type02">
+<p>🏋️‍♂️</p>
+<h3>WEIGHT   </h3>
+</button>
+ 
+<button id="type03">
+<p>🌡️</p>
+<h3>TEMPERATURE</h3>
+</button>
+</div>
+
+    <h2 id="action-header">CHOOSE ACTION : </h2>
+    <div class="action">
+        <button>Comparasion</button>
+        <button>Conversion</button>
+        <button>Arithmetic</button>
+    </div>
+   
+
+<div class="converter-container">
+  <div class="converter-row">
+    <h3>FROM</h3>
+    <input type="number" placeholder="0">
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Select unit
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Kilometer</a></li>
+        <li><a class="dropdown-item" href="#">Meter</a></li>
+        <li><a class="dropdown-item" href="#">Centimeter</a></li>
+        <li><a class="dropdown-item" href="#">Millimeter</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="converter-row">
+    <h3>TO</h3>
+    <input type="number" placeholder="0" readonly>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Select unit
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Kilometer</a></li>
+        <li><a class="dropdown-item" href="#">Meter</a></li>
+        <li><a class="dropdown-item" href="#">Centimeter</a></li>
+        <li><a class="dropdown-item" href="#">Millimeter</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="..\javascript\main.js"></script>
+</body>
+</html>
