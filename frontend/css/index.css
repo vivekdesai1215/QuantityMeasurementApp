@@ -16,9 +16,13 @@ margin-left:auto;
 margin-right: auto;
 /* margin-top: 10px; */
 /* margin-bottom: 20px; */
-
 }
- #type-header{
+
+
+
+
+
+#type-header{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -209,4 +213,12 @@ grid-row:auto;
   .converter-row .dropdown button {
     width: 100%;
   }
+}
+
+
+.active {
+  background-color: #2f3e46 !important;
+  color: white !important;
+  border: 2px solid white !important;
+  box-shadow: 0 0 10px rgba(255,255,255,0.6);
 }
