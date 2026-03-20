@@ -1,13 +1,15 @@
 /*
-UC-03 : API Layer
+UC-JS-04 : Conversion Integration
 
-- Handles all fetch() calls to json-server
-- Fetches units using: GET /units?type=Type
-- Returns filtered unit data as JSON
-- Handles HTTP and network errors
-- No UI or business logic here
+- Uses getConversion(from, to) from api.js
+- Fetches factor/formula dynamically from API
+- Handles same unit case (returns value directly)
+- Supports both factor and formula-based conversions
+- Displays error if conversion pair not found
 */
 
+// @author Vivek
+// @version 4.0
 
 const state = {
   type: "length",
@@ -26,12 +28,12 @@ let cachedUnits = [];
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-  const typeButtons = {
-    type01: "length",
-    type02: "weight",
-    type03: "temperature",
-    type04: "volume"
-  };
+ const typeButtons = {
+  type01: "length",
+  type02: "weight",
+  type03: "temperature",
+  type04: "volume"
+};
 
   const typeBtns = document.querySelectorAll(".type-container button");
   const actionBtns = document.querySelectorAll(".action button");
@@ -72,28 +74,37 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   // --- LOAD UNITS INTO DROPDOWN ---
- async function loadUnits(type) {
+// API fetch function
+async function getUnits(type) {
   try {
-    const filtered = await getUnits(type); // ✅ from api.js
+    const res = await fetch(`${API_BASE_URL}/units?type=${type}`);
+    if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
+    return await res.json();
+  } catch (error) {
+    console.error("getUnits error:", error);
+    throw error;
+  }
+}
+
+// UI/populate dropdowns function
+async function loadUnits(type) {
+  try {
+    const filtered = await getUnits(type); // now works
     cachedUnits = filtered;
 
     dropdownMenus.forEach((menu, index) => {
       menu.innerHTML = "";
-
       filtered.forEach(unit => {
         const li = document.createElement("li");
         const a = document.createElement("a");
-
         a.className = "dropdown-item";
         a.href = "#";
         a.textContent = unit.label;
 
         a.addEventListener("click", () => {
           dropdownButtons[index].textContent = unit.label;
-
           if (index === 0) state.fromUnit = unit.symbol;
           else state.toUnit = unit.symbol;
-
           convert();
         });
 
@@ -106,32 +117,33 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (filtered.length > 0) {
       state.fromUnit = filtered[0].symbol;
       state.toUnit = filtered[1]?.symbol || filtered[0].symbol;
-
       dropdownButtons[0].textContent = filtered[0].label;
       dropdownButtons[1].textContent = filtered[1]?.label || filtered[0].label;
     }
 
   } catch (error) {
-    showErrorBanner("Failed to load units");
+    showError("Failed to load units"); // or banner
   }
 }
 
   // --- CONVERSION LOGIC ---
-  function convert() {
-    const value = parseFloat(fromInput.value);
-    if (!value) return;
+  async function convert() {
+  const value = parseFloat(fromInput.value);
+  if (!value) return;
 
-    const fromUnit = cachedUnits.find(u => u.symbol === state.fromUnit);
-    const toUnit = cachedUnits.find(u => u.symbol === state.toUnit);
-
-    if (!fromUnit || !toUnit) return;
-
-    // convert to base first
-    const base = value * fromUnit.factor;
-    const result = base / toUnit.factor;
+  try {
+    const result = await convertValue(
+      value,
+      state.fromUnit,
+      state.toUnit
+    );
 
     toInput.value = result.toFixed(4);
+
+  } catch (error) {
+    showErrorBanner("Conversion not available for this pair");
   }
+}
 
   // --- INPUT LISTENER ---
   fromInput.addEventListener("input", convert);
