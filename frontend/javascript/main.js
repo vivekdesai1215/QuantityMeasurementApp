@@ -1,3 +1,13 @@
+/*
+UC-03 : API Layer
+
+- Handles all fetch() calls to json-server
+- Fetches units using: GET /units?type=Type
+- Returns filtered unit data as JSON
+- Handles HTTP and network errors
+- No UI or business logic here
+*/
+
 
 const state = {
   type: "length",
@@ -62,21 +72,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   // --- LOAD UNITS INTO DROPDOWN ---
-  async function loadUnits(type) {
-    const res = await fetch(`${API_BASE_URL}/units`);
-    const data = await res.json();
-    
-    cachedUnits = data;
+ async function loadUnits(type) {
+  try {
+    const filtered = await getUnits(type); // ✅ from api.js
+    cachedUnits = filtered;
 
-    const filtered = data.filter(u => u.type.toLowerCase() === type);
-    console.log(filtered)
     dropdownMenus.forEach((menu, index) => {
       menu.innerHTML = "";
-    
+
       filtered.forEach(unit => {
         const li = document.createElement("li");
         const a = document.createElement("a");
-        
+
         a.className = "dropdown-item";
         a.href = "#";
         a.textContent = unit.label;
@@ -87,7 +94,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           if (index === 0) state.fromUnit = unit.symbol;
           else state.toUnit = unit.symbol;
 
-          convert(); // auto convert on selection
+          convert();
         });
 
         li.appendChild(a);
@@ -103,7 +110,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       dropdownButtons[0].textContent = filtered[0].label;
       dropdownButtons[1].textContent = filtered[1]?.label || filtered[0].label;
     }
+
+  } catch (error) {
+    showErrorBanner("Failed to load units");
   }
+}
 
   // --- CONVERSION LOGIC ---
   function convert() {
