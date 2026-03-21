@@ -7,11 +7,16 @@ UC-04 : Fetch Conversion Record
 */
 // API fetch function
 
+const API_BASE_URL = "http://localhost:3000"; 
+
 async function getUnits(type) {
   try {
+    console.log("Entered getUnits function")
     const res = await fetch(`${API_BASE_URL}/units?type=${type}`);
     if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
-    return await res.json();
+    const data = await res.json();
+    console.log(data);
+    return data
   } catch (error) {
     console.error("getUnits error:", error);
     throw error;

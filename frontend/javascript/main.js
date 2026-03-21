@@ -1,16 +1,19 @@
 /*
-UC-JS-04 : Conversion Integration
+UC-JS-05 : Save to History
 
-- Uses getConversion(from, to) from api.js
-- Fetches factor/formula dynamically from API
-- Handles same unit case (returns value directly)
-- Supports both factor and formula-based conversions
-- Displays error if conversion pair not found
+- Saves each successful calculation to backend (json-server)
+- Triggered after conversion completes without error
+- Sends POST request to /history endpoint
+- Stores: type, action, expression, result, timestamp
+- json-server auto-generates unique id for each record
+- Non-blocking: failure does not affect user experience
 */
 
 // @author Vivek
-// @version 4.0
+// @version 5.0
 
+
+console.log("Main Js is loaded")
 const state = {
   type: "length",
   action: "conversion",
@@ -21,7 +24,7 @@ const state = {
   operator: "+"
 };
 
-const API_BASE_URL = "http://localhost:3000";
+// const API_BASE_URL = "http://localhost:3000"; 
 
 let cachedUnits = [];
 
@@ -73,25 +76,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // --- LOAD UNITS INTO DROPDOWN ---
-// API fetch function
-async function getUnits(type) {
-  try {
-    const res = await fetch(`${API_BASE_URL}/units?type=${type}`);
-    if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
-    return await res.json();
-  } catch (error) {
-    console.error("getUnits error:", error);
-    throw error;
-  }
-}
 
+  // --- LOAD UNITS INTO DROPDOWN --
 // UI/populate dropdowns function
 async function loadUnits(type) {
   try {
-    const filtered = await getUnits(type); // now works
+    const filtered = await getUnits(type); 
     cachedUnits = filtered;
-
+    console.log("Entered loadUnits function")
     dropdownMenus.forEach((menu, index) => {
       menu.innerHTML = "";
       filtered.forEach(unit => {
@@ -140,10 +132,23 @@ async function loadUnits(type) {
 
     toInput.value = result.toFixed(4);
 
+    // Prepare history record
+    const record = {
+      type: state.type,
+      action: state.action,
+      expression: `${value} ${state.fromUnit} → ${state.toUnit}`,
+      result: result,
+      timestamp: new Date().toISOString()
+    };
+
+    // Save asynchronously (non-blocking)
+    saveHistory(record);
+
   } catch (error) {
     showErrorBanner("Conversion not available for this pair");
   }
 }
+
 
   // --- INPUT LISTENER ---
   fromInput.addEventListener("input", convert);
@@ -156,3 +161,31 @@ async function loadUnits(type) {
   // --- INIT ---
   await loadUnits("length");
 });
+
+
+// --- Save calculation record to history ---
+async function saveHistory(record) {
+  try {
+    // POST the record to /history
+    const res = await fetch(`${API_BASE_URL}/history`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(record),
+    });
+
+    if (!res.ok) {
+      throw new Error(`HTTP Error: ${res.status}`);
+    }
+
+    const savedRecord = await res.json(); // object with auto-assigned id
+    console.log("History saved:", savedRecord);
+    return savedRecord;
+
+  } catch (error) {
+    // Non-critical: just log, don't block user
+    console.error("Failed to save history:", error);
+    return null;
+  }
+}
