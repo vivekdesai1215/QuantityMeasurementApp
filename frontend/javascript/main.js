@@ -1,15 +1,16 @@
 /**
- * UC-JS-14: Render History List
- * -----------------------------
- * Clears and rebuilds the history panel from records.
- * Preconditions: #history-list exists in DOM.
- * Postconditions: Shows all records newest-first, or placeholder if empty.
- * Handles undefined records by treating as empty array.
+ * UC-JS-15: Handle Type Card Click
+ * --------------------------------
+ * Updates state, reloads units, and resets result when a type card is clicked.
+ * Preconditions: Event listeners attached to .type-card elements.
+ * Postconditions: State updated, dropdowns repopulated, inputs/result cleared.
+ * Handles re-clicking active card safely and getUnits failure with error banner.
  */
 
 
+
 // @author Vivek
-// @version 14.0
+// @version 15.0
 
 console.log("Main Js is loaded");
 
@@ -59,22 +60,42 @@ document.addEventListener("DOMContentLoaded", async () => {
 const arithResultUnitMenu = document.getElementById("arith-result-unit-menu");
 
   // --- TYPE BUTTONS ---
-  typeBtns.forEach((btn) => {
-    btn.addEventListener("click", async (e) => {
-      e.preventDefault();
-      setActive(btn.parentElement, btn, "button");
+const typeSelector = document.querySelector(".type-container");
 
-      const type = typeButtons[btn.id];
-      state.type = type;
+document.querySelectorAll(".type-card").forEach(card => {
+  card.addEventListener("click", async () => {
+    try {
+      // 1. Update state
+      state.type = card.dataset.type;
 
-      try {
-        await loadUnits(type); // conversion dropdowns
-        loadArithmeticUnits(type); // arithmetic dropdowns
-      } catch (err) {
-        showError("Failed to load units");
-      }
-    });
+      // 2. Set active button
+      setActive(typeSelector, card, ".type-card");
+
+      // 3. Reset all input fields
+      fromInput.value = "";
+      toInput.value = "";
+      arithValue1.value = "";
+      arithValue2.value = "";
+      arithResult.value = "";
+
+      // 4. Load units for selected type
+      const units = await getUnits(state.type);
+      cachedUnits = units;
+
+      // 5. Repopulate dropdowns
+      await loadUnits(state.type);
+      loadArithmeticUnits(state.type);
+
+      // 6. Reset selected units in state
+      state.fromUnit = "";
+      state.toUnit = "";
+
+    } catch (err) {
+      console.error("Failed to load units", err);
+      showError("Failed to load units");
+    }
   });
+});
 
   // --- ACTION BUTTONS ---
   actionBtns.forEach((btn) => {
