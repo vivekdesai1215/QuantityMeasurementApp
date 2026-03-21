@@ -346,6 +346,246 @@
       "expression": "1 km → m",
       "result": 1000,
       "timestamp": "2026-03-21T09:15:56.495Z"
+    },
+    {
+      "id": "61ef",
+      "type": "weight",
+      "action": "conversion",
+      "expression": "1 t → kg",
+      "result": 1000,
+      "timestamp": "2026-03-21T09:23:54.014Z"
+    },
+    {
+      "id": "0dbe",
+      "type": "length",
+      "action": "conversion",
+      "expression": "1 km → m",
+      "result": 1000,
+      "timestamp": "2026-03-21T09:23:57.853Z"
+    },
+    {
+      "id": "62a1",
+      "type": "length",
+      "action": "conversion",
+      "expression": "1 km → m",
+      "result": 1000,
+      "timestamp": "2026-03-21T09:24:01.855Z"
+    },
+    {
+      "id": "9a14",
+      "type": "length",
+      "action": "conversion",
+      "expression": "10 km → m",
+      "result": 10000,
+      "timestamp": "2026-03-21T09:24:01.969Z"
+    },
+    {
+      "id": "d697",
+      "type": "weight",
+      "action": "conversion",
+      "expression": "1 t → kg",
+      "result": 1000,
+      "timestamp": "2026-03-21T09:24:16.678Z"
+    },
+    {
+      "id": "f5b4",
+      "type": "length",
+      "action": "conversion",
+      "expression": "1 km → m",
+      "result": 1000,
+      "timestamp": "2026-03-21T09:24:26.030Z"
+    },
+    {
+      "id": "dd60",
+      "type": "length",
+      "action": "conversion",
+      "expression": "1 km → m",
+      "result": 1000,
+      "timestamp": "2026-03-21T09:24:28.930Z"
+    },
+    {
+      "id": "2b98",
+      "type": "length",
+      "action": "conversion",
+      "expression": "1 km → m",
+      "result": 1000,
+      "timestamp": "2026-03-21T09:24:30.915Z"
+    },
+    {
+      "id": "cbae",
+      "type": "length",
+      "action": "conversion",
+      "expression": "1 km → m",
+      "result": 1000,
+      "timestamp": "2026-03-21T09:24:32.613Z"
+    },
+    {
+      "id": "7150",
+      "type": "length",
+      "action": "conversion",
+      "expression": "1 km → m",
+      "result": 1000,
+      "timestamp": "2026-03-21T09:24:33.760Z"
+    },
+    {
+      "id": "3061",
+      "type": "length",
+      "action": "conversion",
+      "expression": "1 km → m",
+      "result": 1000,
+      "timestamp": "2026-03-21T09:24:40.998Z"
+    },
+    {
+      "id": "5db0",
+      "type": "length",
+      "action": "conversion",
+      "expression": "1 km → m",
+      "result": 1000,
+      "timestamp": "2026-03-21T09:24:43.973Z"
+    },
+    {
+      "id": "a17a",
+      "type": "length",
+      "action": "conversion",
+      "expression": "1 km → m",
+      "result": 1000,
+      "timestamp": "2026-03-21T09:24:45.618Z"
+    },
+    {
+      "id": "e6d8",
+      "type": "length",
+      "action": "conversion",
+      "expression": "1 km → m",
+      "result": 1000,
+      "timestamp": "2026-03-21T09:24:47.330Z"
+    },
+    {
+      "id": "9f25",
+      "type": "length",
+      "action": "conversion",
+      "expression": "1 km → m",
+      "result": 1000,
+      "timestamp": "2026-03-21T09:24:49.169Z"
+    },
+    {
+      "id": "0833",
+      "type": "length",
+      "action": "conversion",
+      "expression": "1 km → m",
+      "result": 1000,
+      "timestamp": "2026-03-21T09:25:51.624Z"
+    },
+    {
+      "id": "e604",
+      "type": "length",
+      "action": "conversion",
+      "expression": "1 km → m",
+      "result": 1000,
+      "timestamp": "2026-03-21T09:25:53.798Z"
+    },
+    {
+      "id": "1bf0",
+      "type": "length",
+      "action": "conversion",
+      "expression": "10 km → m",
+      "result": 10000,
+      "timestamp": "2026-03-21T09:25:53.878Z"
+    },
+    {
+      "id": "3e03",
+      "type": "length",
+      "action": "conversion",
+      "expression": "1 km → m",
+      "result": 1000,
+      "timestamp": "2026-03-21T09:25:56.706Z"
+    },
+    {
+      "id": "39da",
+      "type": "length",
+      "action": "conversion",
+      "expression": "10 km → m",
+      "result": 10000,
+      "timestamp": "2026-03-21T09:25:56.787Z"
+    },
+    {
+      "id": "3d00",
+      "type": "length",
+      "action": "conversion",
+      "expression": "1 km → m",
+      "result": 1000,
+      "timestamp": "2026-03-21T09:25:59.755Z"
+    },
+    {
+      "id": "b378",
+      "type": "length",
+      "action": "conversion",
+      "expression": "1 km → m",
+      "result": 1000,
+      "timestamp": "2026-03-21T09:26:02.187Z"
+    },
+    {
+      "id": "d17b",
+      "type": "length",
+      "action": "conversion",
+      "expression": "10 km → m",
+      "result": 10000,
+      "timestamp": "2026-03-21T09:26:02.324Z"
+    },
+    {
+      "id": "ce65",
+      "type": "length",
+      "action": "conversion",
+      "expression": "1 km → m",
+      "result": 1000,
+      "timestamp": "2026-03-21T09:26:05.062Z"
+    },
+    {
+      "id": "b78a",
+      "type": "length",
+      "action": "conversion",
+      "expression": "10 km → m",
+      "result": 10000,
+      "timestamp": "2026-03-21T09:26:05.162Z"
+    },
+    {
+      "id": "144d",
+      "type": "length",
+      "action": "conversion",
+      "expression": "1 km → m",
+      "result": 1000,
+      "timestamp": "2026-03-21T09:26:07.593Z"
+    },
+    {
+      "id": "e3a1",
+      "type": "length",
+      "action": "conversion",
+      "expression": "10 km → m",
+      "result": 10000,
+      "timestamp": "2026-03-21T09:26:07.680Z"
+    },
+    {
+      "id": "1255",
+      "type": "temperature",
+      "action": "conversion",
+      "expression": "1 C → F",
+      "result": 33.8,
+      "timestamp": "2026-03-21T09:29:11.541Z"
+    },
+    {
+      "id": "cead",
+      "type": "length",
+      "action": "conversion",
+      "expression": "100 km → m",
+      "result": 100000,
+      "timestamp": "2026-03-21T09:29:14.163Z"
+    },
+    {
+      "id": "8c16",
+      "type": "length",
+      "action": "conversion",
+      "expression": "100 km → m",
+      "result": 100000,
+      "timestamp": "2026-03-21T09:29:29.456Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

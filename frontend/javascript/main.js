@@ -125,13 +125,14 @@ async function loadUnits(type) {
   }
 }
 
+
   // --- CONVERSION LOGIC ---
   async function convert() {
     console.log("convert triggered");
   const value = parseFloat(fromInput.value);
   console.log("value:", value);
   console.log("from:", state.fromUnit, "to:", state.toUnit);
-  if (!value) return;
+  if (isNaN(value)) return;
 
   try {
     const result = await convertValue(
@@ -144,17 +145,14 @@ async function loadUnits(type) {
     toInput.value = result.toFixed(4);
 
     // Prepare history record
-    const record = {
-      type: state.type,
-      action: state.action,
-      expression: `${value} ${state.fromUnit} → ${state.toUnit}`,
-      result: result,
-      timestamp: new Date().toISOString()
-    };
+    // const record = {
+    //   type: state.type,
+    //   action: state.action,
+    //   expression: `${value} ${state.fromUnit} → ${state.toUnit}`,
+    //   result: result,
+    //   timestamp: new Date().toISOString()
+    // };
 
-    // Save asynchronously (non-blocking)
-    saveHistory(record);
-    await loadHistoryUI();
 
   } catch (error) {
     showErrorBanner("Conversion not available for this pair");
@@ -165,14 +163,40 @@ fromInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") e.preventDefault(); // stops page refresh
 });
 
+let debounceTimer;
   // --- INPUT LISTENER ---
-  fromInput.addEventListener("input", async (e) => {
-  try {
-    await convert();
-  } catch (err) {
-    console.error(err);
-  }
+//   fromInput.addEventListener("input", async (e) => {
+//   try {
+//     await convert();
+//   } catch (err) {
+//     console.error(err);
+//   }
+// });
+
+
+fromInput.addEventListener("input", async (e) => {
+  clearTimeout(debounceTimer)
+  debounceTimer = setTimeout(async ()=>{
+   await convert();
+
+   const value = parseFloat(fromInput.value)
+   if(!isNaN(value)) return;
+
+  const record = {
+      type: state.type,
+      action: state.action,
+      expression: `${value} ${state.fromUnit} → ${state.toUnit}`,
+      result: result,
+      timestamp: new Date().toISOString()
+    };
+
+    saveHistory(record);
+
+
+  },500);
 });
+
+
 
   // --- ERROR ---
   function showError(msg) {
