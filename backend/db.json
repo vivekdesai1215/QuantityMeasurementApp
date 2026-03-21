@@ -586,6 +586,86 @@
       "expression": "100 km → m",
       "result": 100000,
       "timestamp": "2026-03-21T09:29:29.456Z"
+    },
+    {
+      "id": "1a0d",
+      "type": "weight",
+      "action": "conversion",
+      "expression": "100 t → kg",
+      "result": 100000,
+      "timestamp": "2026-03-21T09:43:14.608Z"
+    },
+    {
+      "id": "2c33",
+      "type": "length",
+      "action": "conversion",
+      "expression": "100 km → m",
+      "result": 100000,
+      "timestamp": "2026-03-21T09:43:20.817Z"
+    },
+    {
+      "id": "5dc5",
+      "type": "length",
+      "action": "conversion",
+      "expression": "100 km → m",
+      "result": 100000,
+      "timestamp": "2026-03-21T09:43:23.326Z"
+    },
+    {
+      "id": "fb3c",
+      "type": "length",
+      "action": "conversion",
+      "expression": "100 km → m",
+      "result": 100000,
+      "timestamp": "2026-03-21T09:43:29.375Z"
+    },
+    {
+      "id": "ac03",
+      "type": "length",
+      "action": "conversion",
+      "expression": "100 km → m",
+      "result": 100000,
+      "timestamp": "2026-03-21T09:43:32.867Z"
+    },
+    {
+      "id": "8b4a",
+      "type": "length",
+      "action": "conversion",
+      "expression": "100 km → m",
+      "result": 100000,
+      "timestamp": "2026-03-21T09:43:53.015Z"
+    },
+    {
+      "id": "567d",
+      "type": "length",
+      "action": "conversion",
+      "expression": "100 km → m",
+      "result": 100000,
+      "timestamp": "2026-03-21T09:43:55.965Z"
+    },
+    {
+      "id": "9b75",
+      "type": "length",
+      "action": "conversion",
+      "expression": "100 km → m",
+      "result": 100000,
+      "timestamp": "2026-03-21T09:44:19.830Z"
+    },
+    {
+      "id": "de23",
+      "type": "length",
+      "action": "conversion",
+      "expression": "100 km → m",
+      "result": 100000,
+      "timestamp": "2026-03-21T09:50:33.514Z"
+    },
+    {
+      "id": "e69b",
+      "type": "length",
+      "action": "conversion",
+      "expression": "100 km → m",
+      "result": 100000,
+      "timestamp": "2026-03-21T09:50:38.247Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

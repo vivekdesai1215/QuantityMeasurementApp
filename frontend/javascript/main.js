@@ -180,7 +180,7 @@ fromInput.addEventListener("input", async (e) => {
    await convert();
 
    const value = parseFloat(fromInput.value)
-   if(!isNaN(value)) return;
+   if(isNaN(value)) return;
 
   const record = {
       type: state.type,
@@ -205,6 +205,7 @@ fromInput.addEventListener("input", async (e) => {
 
   // --- INIT ---
   await loadUnits("length");
+  await loadHistoryUI();
 });
 
 
