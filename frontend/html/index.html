@@ -86,6 +86,52 @@
    <div id="comparison-result" style="margin-top: 20px; font-size: 1.2em; font-weight: bold; color: #333;"></div>
 </div>
 
+<!-- Place this below the existing converter-container in index.html -->
+<div id="arithmetic-container" style="display:none; max-width:900px; margin:30px auto;">
+
+  <!-- Row: Value1 + unit | Operator | Value2 + unit -->
+  <div class="arith-row" style="display:flex; gap:15px; justify-content: space-between; align-items:center; flex-wrap: wrap;">
+    
+    <!-- Value 1 + unit -->
+    <div style="flex:1; display:flex; gap:10px; min-width:150px;">
+      <input type="number" id="arith-value1" placeholder="Value 1" style="flex:1; padding:10px; font-size:16px;">
+      <div class="dropdown" style="flex:0 0 140px;">
+        <button id="arith-from-unit-btn" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">Select unit</button>
+        <ul id="arith-from-unit-menu" class="dropdown-menu"></ul>
+      </div>
+    </div>
+
+    <!-- Operator -->
+    <div style="flex:0 0 120px; text-align:center;">
+      <div class="dropdown">
+        <button id="operator-btn" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">+</button>
+        <ul id="operator-menu" class="dropdown-menu">
+          <li><button class="dropdown-item" type="button">+</button></li>
+          <li><button class="dropdown-item" type="button">-</button></li>
+          <li><button class="dropdown-item" type="button">×</button></li>
+          <li><button class="dropdown-item" type="button">÷</button></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Value 2 + unit -->
+    <div style="flex:1; display:flex; gap:10px; min-width:150px;">
+      <input type="number" id="arith-value2" placeholder="Value 2" style="flex:1; padding:10px; font-size:16px;">
+      <div class="dropdown" style="flex:0 0 140px;">
+        <button id="arith-to-unit-btn" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">Select unit</button>
+        <ul id="arith-to-unit-menu" class="dropdown-menu"></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row: Result box -->
+  <div class="arith-result-row" style="margin-top:20px;">
+    <input type="text" id="arithmetic-result" placeholder="Result" readonly style="width:100%; padding:10px; font-size:16px; text-align:center; border:1px solid #444; border-radius:6px;">
+  </div>
+
+</div>
+
+
 
 <!-- <div id="history-container" style="max-width:900px;margin:20px auto;">
   <h3>History</h3>

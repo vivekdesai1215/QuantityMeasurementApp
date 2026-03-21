@@ -30,7 +30,6 @@ async function getConversion(from, to) {
     if (!res.ok) {
       throw new Error(`HTTP Error: ${res.status}`);
     }
-
     const data = await res.json(); // always array
 
     if (!data.length) {

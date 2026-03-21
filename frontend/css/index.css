@@ -8,7 +8,7 @@ body {
 }
 
 header{
-    display: flex;
+    /* display: flex; */
     align-items: center;
     justify-content: center;
    /* background-color:chocolate; */
@@ -19,6 +19,7 @@ header{
     width: 100%;
     text-align: center;
     border-radius: 20px;
+    margin-top: 20px;
 }
 
 .type-container{
@@ -235,4 +236,32 @@ grid-row:auto;
   color: white !important;
   border: 2px solid white !important;
   box-shadow: 0 0 10px rgba(255,255,255,0.6);
+}
+
+
+
+
+/* 
+Arithematic CSS
+*/
+#arithmetic-container .arith-row input,
+#arithmetic-container .arith-row .dropdown button {
+  border-radius: 6px;
+  border: 1px solid #444;
+}
+
+#arithmetic-container .arith-row .dropdown button {
+  width: 100%;
+}
+
+@media (max-width:768px) {
+  #arithmetic-container .arith-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  #arithmetic-container .arith-row input,
+  #arithmetic-container .arith-row .dropdown button {
+    width: 100%;
+  }
 }
