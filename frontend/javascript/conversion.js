@@ -1,15 +1,14 @@
 async function convertValue(value, from, to) {
 
-  // ✅ same unit shortcut
-  if (from === to) {
-    return parseFloat(value.toFixed(6));
-  }
+ if(from===to){
+  return parseFloat(value.toFixed(6))
+ }
+ console.log("Trying conversion:", from, "->", to);
+ const conversion = await getConversion(from,to);
 
-  // ✅ fetch conversion object
-  const conversion = await getConversion(from, to);
+ if(!conversion) throw new Error(`Conversion missing: ${from} -> ${to}`);
 
-  // ✅ apply conversion logic
-  return applyConversion(value, conversion);
+ return applyConversion(value,conversion);
 }
 
 

@@ -128,51 +128,25 @@ async function loadUnits(type) {
 
   // --- CONVERSION LOGIC ---
   async function convert() {
-    console.log("convert triggered");
+  console.log("convert triggered");
   const value = parseFloat(fromInput.value);
   console.log("value:", value);
   console.log("from:", state.fromUnit, "to:", state.toUnit);
-  if (isNaN(value)) return;
-
-  try {
+  if (isNaN(value)) return null;
     const result = await convertValue(
       value,
       state.fromUnit,
       state.toUnit
     );
     console.log("result:", result);
-
     toInput.value = result.toFixed(4);
-
-    // Prepare history record
-    // const record = {
-    //   type: state.type,
-    //   action: state.action,
-    //   expression: `${value} ${state.fromUnit} → ${state.toUnit}`,
-    //   result: result,
-    //   timestamp: new Date().toISOString()
-    // };
-
-
-  } catch (error) {
-    showErrorBanner("Conversion not available for this pair");
-  }
-}
+ }
 
 fromInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") e.preventDefault(); // stops page refresh
 });
 
 let debounceTimer;
-  // --- INPUT LISTENER ---
-//   fromInput.addEventListener("input", async (e) => {
-//   try {
-//     await convert();
-//   } catch (err) {
-//     console.error(err);
-//   }
-// });
-
 
 fromInput.addEventListener("input", async (e) => {
   clearTimeout(debounceTimer)
@@ -180,20 +154,17 @@ fromInput.addEventListener("input", async (e) => {
    await convert();
 
    const value = parseFloat(fromInput.value)
-   if(isNaN(value)) return;
+   if(isNaN(value) ) return;
 
-  const record = {
-      type: state.type,
-      action: state.action,
-      expression: `${value} ${state.fromUnit} → ${state.toUnit}`,
-      result: result,
-      timestamp: new Date().toISOString()
-    };
-
-    saveHistory(record);
-
-
-  },500);
+  // const record = {
+  //     type: state.type,
+  //     action: state.action,
+  //     expression: `${value} ${state.fromUnit} → ${state.toUnit}`,
+  //     result: result,
+  //     timestamp: new Date().toISOString()
+  //   };
+  //   saveHistory(record);
+  },300);
 });
 
 
@@ -243,7 +214,6 @@ async function loadHistoryUI() {
 
   const container = document.getElementById("history-container");
 
-  // Clear previous
   container.innerHTML = "";
 
   if (!history.length) {
