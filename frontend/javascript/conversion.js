@@ -14,33 +14,42 @@ async function convertValue(value, from, to) {
 
 
 function applyConversion(value, convObj) {
-
-  // ❌ invalid number check
+  // ❌ Invalid number check
   if (isNaN(value)) {
     throw new Error("Invalid number");
   }
 
-  // ✅ same unit case (handled before calling ideally)
+  // ✅ Same unit case (if convObj is missing)
   if (!convObj) {
     return value;
   }
 
-  // ✅ factor-based conversion
-  if (convObj.factor !== null) {
-    return parseFloat((value * convObj.factor).toFixed(6));
-  }
+  let result;
 
-  // ✅ formula-based conversion
-  if (convObj.formula) {
+  // ✅ Factor-based conversion (only if factor is a number)
+  if (typeof convObj.factor === "number") {
+    result = value * convObj.factor;
+  } 
+  // ✅ Formula-based conversion
+  else if (convObj.formula) {
     try {
-      const expr = convObj.formula.replace("x", value);
-      const result = eval(expr);
-
-      return parseFloat(result.toFixed(6));
+      // Replace all instances of "x" with the input value
+      const expr = convObj.formula.replaceAll("x", value);
+      result = eval(expr);
     } catch (err) {
       throw new Error("Bad formula");
     }
+  } 
+  // ❌ Neither factor nor formula available
+  else {
+    throw new Error("Invalid conversion data");
   }
 
-  throw new Error("Invalid conversion data");
+  // ❌ Final check: ensure result is a valid number
+  if (isNaN(result)) {
+    throw new Error("Conversion resulted in NaN");
+  }
+
+  // ✅ Round to 6 decimal places
+  return parseFloat(result.toFixed(6));
 }

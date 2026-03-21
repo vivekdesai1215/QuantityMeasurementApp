@@ -1,5 +1,5 @@
 /*
-UC-JS-07 : Apply Conversion
+UC-JS-08 : Apply Conversion
 
 - Applies conversion using factor or formula
 - Handles both multiplication and expression evaluation
@@ -9,7 +9,7 @@ UC-JS-07 : Apply Conversion
 */
 
 // @author Vivek
-// @version 7.0
+// @version 8.0
 
 
 console.log("Main Js is loaded")
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       try {
         await loadUnits(type);
-        await loadHistoryUI();
+        // await loadHistoryUI();
       } catch (err) {
         showError("Failed to load units");
       }
@@ -127,20 +127,24 @@ async function loadUnits(type) {
 
 
   // --- CONVERSION LOGIC ---
-  async function convert() {
-  console.log("convert triggered");
-  const value = parseFloat(fromInput.value);
-  console.log("value:", value);
-  console.log("from:", state.fromUnit, "to:", state.toUnit);
-  if (isNaN(value)) return null;
-    const result = await convertValue(
-      value,
-      state.fromUnit,
-      state.toUnit
-    );
-    console.log("result:", result);
-    toInput.value = result.toFixed(4);
- }
+async function convert() {
+  const rawValue = fromInput.value.trim();
+  const value = parseFloat(rawValue);
+
+  if (isNaN(value)) {
+    toInput.value = "";
+    return;
+  }
+
+  try {
+    const result = await convertValue(value, state.fromUnit, state.toUnit);
+
+    toInput.value = isNaN(result) ? "" : result.toFixed(4);
+  } catch (err) {
+    console.error("Conversion failed:", err);
+    toInput.value = "";
+  }
+}
 
 fromInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") e.preventDefault(); // stops page refresh
