@@ -1,17 +1,15 @@
 /**
- * UC-JS-13: Toggle Operator Row
+ * UC-JS-14: Render History List
  * -----------------------------
- * Shows or hides the operator buttons based on action mode.
- * Preconditions: #operator-selector exists in DOM.
- * Postconditions: Row visible only when action is "Arithmetic".
- * Handles missing element by logging a warning.
+ * Clears and rebuilds the history panel from records.
+ * Preconditions: #history-list exists in DOM.
+ * Postconditions: Shows all records newest-first, or placeholder if empty.
+ * Handles undefined records by treating as empty array.
  */
 
 
-
-
 // @author Vivek
-// @version 13.0
+// @version 14.0
 
 console.log("Main Js is loaded");
 
@@ -303,6 +301,7 @@ const arithResultUnitMenu = document.getElementById("arith-result-unit-menu");
   // --- INIT ---
   await loadUnits("length");
   loadArithmeticUnits("length");
+
 });
 
 
@@ -329,4 +328,41 @@ function toggleOperators(show) {
   }
 
   el.style.display = show ? "flex" : "none";
+}
+
+
+
+//Render History Fun
+function renderHistory(records) {
+  const list = document.querySelector("#history-list");
+
+  if (!list) {
+    console.warn("history-list not found");
+    return;
+  }
+
+  // Safety check
+  if (!records) records = [];
+
+  // Clear existing
+  list.innerHTML = "";
+
+  // Empty state
+  if (!records.length) {
+    list.innerHTML = "<li>No history yet.</li>";
+    return;
+  }
+
+  // Newest first
+  records.slice().reverse().forEach(r => {
+    const li = document.createElement("li");
+
+    li.textContent = `${r.expression} = ${r.result} (${new Date(r.timestamp).toLocaleString()})`;
+
+    // Optional styling
+    li.style.padding = "8px";
+    li.style.borderBottom = "1px solid #ccc";
+
+    list.appendChild(li);
+  });
 }
