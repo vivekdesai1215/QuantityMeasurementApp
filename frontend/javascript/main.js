@@ -1,15 +1,16 @@
 /**
- * UC-JS-11: Set Active Button
- * ---------------------------
- * Highlights the clicked button among siblings.
- * Preconditions: parentEl contains buttons, clickedEl is one of them.
- * Postconditions: Only clickedEl has "active" CSS class.
- * Handles null parentEl by returning early.
+ * UC-JS-12: Show Result
+ * ---------------------
+ * Writes calculated value and unit to the result panel.
+ * Preconditions: #result-value and #result-unit exist in DOM.
+ * Postconditions: Panel displays new value/unit with highlight animation.
+ * Handles comparison mode (sentence string, no unit) and null value ("—").
  */
 
 
+
 // @author Vivek
-// @version 11.0
+// @version 12.0
 
 console.log("Main Js is loaded");
 
