@@ -44,3 +44,25 @@ async function getConversion(from, to) {
     throw error;
   }
 }
+
+
+async function getHistory() {
+  try {
+    const res = await fetch(`${API_BASE_URL}/history?_sort=timestamp&_order=desc`);
+
+    if (!res.ok) {
+      throw new Error(`HTTP Error: ${res.status}`);
+    }
+
+    const data = await res.json();
+
+    console.log("History fetched:", data);
+    return data;
+
+  } catch (error) {
+    console.error("getHistory error:", error);
+
+    // Return empty array (non-blocking)
+    return [];
+  }
+}

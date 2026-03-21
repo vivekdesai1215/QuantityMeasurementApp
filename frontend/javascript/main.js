@@ -1,16 +1,15 @@
 /*
-UC-JS-05 : Save to History
+UC-JS-06 : Load History
 
-- Saves each successful calculation to backend (json-server)
-- Triggered after conversion completes without error
-- Sends POST request to /history endpoint
-- Stores: type, action, expression, result, timestamp
-- json-server auto-generates unique id for each record
-- Non-blocking: failure does not affect user experience
+- Retrieves all saved calculation records
+- Sorted by timestamp (latest first)
+- Triggered on page load and after new calculation
+- Displays records in UI
+- Returns empty array if no data or error
 */
 
 // @author Vivek
-// @version 5.0
+// @version 6.0
 
 
 console.log("Main Js is loaded")
@@ -59,6 +58,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       try {
         await loadUnits(type);
+        await loadHistoryUI();
       } catch (err) {
         showError("Failed to load units");
       }
@@ -143,6 +143,7 @@ async function loadUnits(type) {
 
     // Save asynchronously (non-blocking)
     saveHistory(record);
+    await loadHistoryUI();
 
   } catch (error) {
     showErrorBanner("Conversion not available for this pair");
@@ -188,4 +189,33 @@ async function saveHistory(record) {
     console.error("Failed to save history:", error);
     return null;
   }
+}
+
+
+// --- LOAD HISTORY INTO UI ---
+async function loadHistoryUI() {
+  const history = await getHistory();
+
+  const container = document.getElementById("history-container");
+
+  // Clear previous
+  container.innerHTML = "";
+
+  if (!history.length) {
+    container.innerHTML = "<p>No history yet</p>";
+    return;
+  }
+
+  history.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "history-item";
+
+    div.innerHTML = `
+      <strong>${item.expression}</strong> = ${item.result}
+      <br/>
+      <small>${new Date(item.timestamp).toLocaleString()}</small>
+    `;
+
+    container.appendChild(div);
+  });
 }
