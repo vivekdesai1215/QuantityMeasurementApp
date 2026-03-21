@@ -1,14 +1,15 @@
 /**
- * UC-JS-09: Perform Arithmetic Between Two Measurements
- * -----------------------------------------------------
- * Applies +, -, ×, ÷ after normalising TO value to FROM unit.
- * Preconditions: v2 already converted to FROM unit.
- * Postconditions: Returns numeric result in FROM unit.
- * Handles division by zero with descriptive error.
+ * UC-JS-10: Populate Unit Dropdown
+ * --------------------------------
+ * Fills a <select> with unit options after getUnits().
+ * Preconditions: selectEl is valid, units is an array.
+ * Postconditions: Dropdown has one <option> per unit plus a disabled default prompt.
+ * Handles empty array (only prompt) and null selectEl (logs warning).
  */
 
+
 // @author Vivek
-// @version 9.0
+// @version 10.0
 
 console.log("Main Js is loaded");
 
@@ -54,6 +55,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const arithToUnitMenu = document.getElementById("arith-to-unit-menu");
   const operatorBtn = document.getElementById("operator-btn");
   const operatorMenu = document.getElementById("operator-menu");
+  const arithResultUnitBtn = document.getElementById("arith-result-unit-btn");
+const arithResultUnitMenu = document.getElementById("arith-result-unit-menu");
 
   // --- TYPE BUTTONS ---
   typeBtns.forEach((btn) => {
@@ -166,6 +169,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Populate both value unit dropdowns
     arithFromUnitMenu.innerHTML = "";
     arithToUnitMenu.innerHTML = "";
+    arithResultUnitMenu.innerHTML = "";
 
     cachedUnits.forEach(unit => {
       const btn1 = document.createElement("button");
@@ -189,34 +193,48 @@ document.addEventListener("DOMContentLoaded", async () => {
         calculateArithmetic();
       });
       arithToUnitMenu.appendChild(btn2);
+
+      // Result unit
+    const btnResult = document.createElement("button");
+    btnResult.className = "dropdown-item";
+    btnResult.type = "button";
+    btnResult.textContent = unit.label;
+    btnResult.addEventListener("click", () => {
+      arithResultUnitBtn.textContent = unit.label;
+      state.resultUnit = unit.symbol; // track selected result unit
+      calculateArithmetic();
+    });
+    arithResultUnitMenu.appendChild(btnResult);
     });
 
     // default selection
     if (cachedUnits.length > 0) {
-      state.fromUnit = cachedUnits[0].symbol;
-      state.toUnit = cachedUnits[1]?.symbol || cachedUnits[0].symbol;
-      arithFromUnitBtn.textContent = cachedUnits[0].label;
-      arithToUnitBtn.textContent = cachedUnits[1]?.label || cachedUnits[0].label;
-    }
+    state.fromUnit = cachedUnits[0].symbol;
+    state.toUnit = cachedUnits[1]?.symbol || cachedUnits[0].symbol;
+    state.resultUnit = cachedUnits[0].symbol; // <-- default result unit
+
+    arithFromUnitBtn.textContent = cachedUnits[0].label;
+    arithToUnitBtn.textContent = cachedUnits[1]?.label || cachedUnits[0].label;
+    arithResultUnitBtn.textContent = cachedUnits[0].label; // default result unit
+  }
 
     // Populate operator dropdown with the correct operators
-    const operatorMenu = document.getElementById("operator-menu");
-    operatorMenu.innerHTML = "";  // Clear any previous entries
-    const operators = ["+", "-", "×", "÷"];  // Mathematical operators
+    const operators = ["+", "-", "×", "÷"];
+  operatorMenu.innerHTML = "";
+  operators.forEach(op => {
+    const li = document.createElement("li");
+    const btn = document.createElement("button");
+    btn.className = "dropdown-item";
+    btn.type = "button";
+    btn.textContent = op;
+    btn.addEventListener("click", () => {
+      state.operator = op;
+      operatorBtn.textContent = op;
+      calculateArithmetic();
+    });
+    li.appendChild(btn);
+    operatorMenu.appendChild(li);
 
-    operators.forEach(operator => {
-      const operatorItem = document.createElement("li");
-      const operatorButton = document.createElement("button");
-      operatorButton.className = "dropdown-item";
-      operatorButton.type = "button";
-      operatorButton.textContent = operator;
-      operatorButton.addEventListener("click", () => {
-        state.operator = operator;
-        operatorBtn.textContent = operator;
-        calculateArithmetic();
-      });
-      operatorItem.appendChild(operatorButton);
-      operatorMenu.appendChild(operatorItem);
     });
 
     // Default operator
@@ -233,31 +251,40 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  function calculateArithmetic() {
-    const v1 = parseFloat(arithValue1.value);
-    const v2 = parseFloat(arithValue2.value);
+ async function calculateArithmetic() {
+  const v1 = parseFloat(arithValue1.value);
+  const v2 = parseFloat(arithValue2.value);
 
-    if (isNaN(v1) || isNaN(v2)) {
-      arithResult.value = "";
-      return;
+  if (isNaN(v1) || isNaN(v2)) {
+    arithResult.value = "";
+    return;
+  }
+
+  try {
+    // Convert Value2 to Value1's unit
+    const convertedV2 = await convertValue(v2, state.toUnit, state.fromUnit);
+
+    let result;
+    switch (state.operator) {
+      case "+": result = v1 + convertedV2; break;
+      case "-": result = v1 - convertedV2; break;
+      case "×": result = v1 * convertedV2; break;
+      case "÷": result = convertedV2 !== 0 ? v1 / convertedV2 : "Error"; break;
+      default: result = "";
     }
 
-    // Convert Value2 to Value1's unit
-    convertValue(v2, state.toUnit, state.fromUnit).then(convertedV2 => {
-      let result;
-      switch (state.operator) {
-        case '+': result = v1 + convertedV2; break;
-        case '-': result = v1 - convertedV2; break;
-        case '×': result = v1 * convertedV2; break;
-        case '÷': result = convertedV2 !== 0 ? v1 / convertedV2 : "Error"; break;
-        default: result = "";
-      }
-      arithResult.value = typeof result === "number" ? result.toFixed(4) : result;
-    }).catch(err => {
-      console.error(err);
-      arithResult.value = "Error";
-    });
+    // Convert result to selected result unit
+    if (typeof result === "number") {
+      const finalResult = await convertValue(result, state.fromUnit, state.resultUnit);
+      arithResult.value = finalResult.toFixed(4);
+    } else {
+      arithResult.value = result; // e.g., "Error"
+    }
+  } catch (err) {
+    console.error(err);
+    arithResult.value = "Error";
   }
+}
 
   // Trigger arithmetic calculation on input
   [arithValue1, arithValue2].forEach(input => {

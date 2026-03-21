@@ -88,7 +88,6 @@
 
 <!-- Place this below the existing converter-container in index.html -->
 <div id="arithmetic-container" style="display:none; max-width:900px; margin:30px auto;">
-
   <!-- Row: Value1 + unit | Operator | Value2 + unit -->
   <div class="arith-row" style="display:flex; gap:15px; justify-content: space-between; align-items:center; flex-wrap: wrap;">
     
@@ -124,11 +123,17 @@
     </div>
   </div>
 
-  <!-- Row: Result box -->
-  <div class="arith-result-row" style="margin-top:20px;">
-    <input type="text" id="arithmetic-result" placeholder="Result" readonly style="width:100%; padding:10px; font-size:16px; text-align:center; border:1px solid #444; border-radius:6px;">
+  <!-- Row: Result box + Result Unit dropdown -->
+  <div class="arith-result-row" style="margin-top:20px; display: flex; gap: 10px; align-items: center;">
+    <!-- Result -->
+    <input type="text" id="arithmetic-result" placeholder="Result" readonly style="flex:1; padding:10px; font-size:16px; text-align:center; border:1px solid #444; border-radius:6px;">
+    
+    <!-- Result Unit dropdown -->
+    <div class="dropdown" style="flex: 0 0 160px;">
+      <button id="arith-result-unit-btn" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">Select unit</button>
+      <ul id="arith-result-unit-menu" class="dropdown-menu"></ul>
+    </div>
   </div>
-
 </div>
 
 
