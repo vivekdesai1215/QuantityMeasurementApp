@@ -1,16 +1,15 @@
 /**
- * UC-JS-16: Handle Action Tab Click
- * ---------------------------------
- * Switches mode, toggles operator row, and resets result when an action tab is clicked.
- * Preconditions: Event listeners attached to .action-btn elements.
- * Postconditions: state.action updated, operator row shown/hidden, result cleared.
+ * UC-JS-17: Execute Calculation
+ * -----------------------------
+ * Runs conversion, comparison, or arithmetic and displays result.
+ * Preconditions: State has valid values for current action mode.
+ * Postconditions: Result shown, record saved, history refreshed.
+ * Handles missing inputs (returns early) and async failures (error shown in result panel).
  */
 
 
-
-
 // @author Vivek
-// @version 16.0
+// @version 17.0
 
 console.log("Main Js is loaded");
 
