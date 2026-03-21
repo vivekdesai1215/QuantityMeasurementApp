@@ -1,15 +1,15 @@
 /*
-UC-JS-06 : Load History
+UC-JS-07 : Apply Conversion
 
-- Retrieves all saved calculation records
-- Sorted by timestamp (latest first)
-- Triggered on page load and after new calculation
-- Displays records in UI
-- Returns empty array if no data or error
+- Applies conversion using factor or formula
+- Handles both multiplication and expression evaluation
+- Ensures precision up to 6 decimal places
+- Validates input and throws meaningful errors
+- Safe eval usage (only trusted DB formulas)
 */
 
 // @author Vivek
-// @version 6.0
+// @version 7.0
 
 
 console.log("Main Js is loaded")
@@ -29,6 +29,7 @@ let cachedUnits = [];
 
 
 document.addEventListener("DOMContentLoaded", async () => {
+   document.addEventListener("submit", (e) => e.preventDefault());
 
  const typeButtons = {
   type01: "length",
@@ -48,9 +49,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // --- TYPE BUTTONS ---
   typeBtns.forEach((btn) => {
-    btn.addEventListener("click", async () => {
-
+    btn.addEventListener("click", async (e) => {
+        e.preventDefault(); 
       typeBtns.forEach(b => b.classList.remove("active"));
+
       btn.classList.add("active");
 
       const type = typeButtons[btn.id];
@@ -79,28 +81,33 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // --- LOAD UNITS INTO DROPDOWN --
 // UI/populate dropdowns function
+// --- LOAD UNITS INTO DROPDOWN ---
 async function loadUnits(type) {
   try {
     const filtered = await getUnits(type); 
     cachedUnits = filtered;
-    console.log("Entered loadUnits function")
+    console.log("Entered loadUnits function");
+
     dropdownMenus.forEach((menu, index) => {
       menu.innerHTML = "";
-      filtered.forEach(unit => {
-        const li = document.createElement("li");
-        const a = document.createElement("a");
-        a.className = "dropdown-item";
-        a.href = "#";
-        a.textContent = unit.label;
 
-        a.addEventListener("click", () => {
+      filtered.forEach(unit => {
+        // create button instead of <a>
+        const li = document.createElement("li");
+        const btn = document.createElement("button");
+        btn.className = "dropdown-item";
+        btn.type = "button"; // prevents page refresh
+        btn.textContent = unit.label;
+
+        btn.addEventListener("click", () => {
           dropdownButtons[index].textContent = unit.label;
           if (index === 0) state.fromUnit = unit.symbol;
           else state.toUnit = unit.symbol;
-          convert();
+
+          convert(); // trigger conversion on selection
         });
 
-        li.appendChild(a);
+        li.appendChild(btn);
         menu.appendChild(li);
       });
     });
@@ -114,13 +121,16 @@ async function loadUnits(type) {
     }
 
   } catch (error) {
-    showError("Failed to load units"); // or banner
+    showError("Failed to load units"); 
   }
 }
 
   // --- CONVERSION LOGIC ---
   async function convert() {
+    console.log("convert triggered");
   const value = parseFloat(fromInput.value);
+  console.log("value:", value);
+  console.log("from:", state.fromUnit, "to:", state.toUnit);
   if (!value) return;
 
   try {
@@ -129,6 +139,7 @@ async function loadUnits(type) {
       state.fromUnit,
       state.toUnit
     );
+    console.log("result:", result);
 
     toInput.value = result.toFixed(4);
 
@@ -150,9 +161,18 @@ async function loadUnits(type) {
   }
 }
 
+fromInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") e.preventDefault(); // stops page refresh
+});
 
   // --- INPUT LISTENER ---
-  fromInput.addEventListener("input", convert);
+  fromInput.addEventListener("input", async (e) => {
+  try {
+    await convert();
+  } catch (err) {
+    console.error(err);
+  }
+});
 
   // --- ERROR ---
   function showError(msg) {
