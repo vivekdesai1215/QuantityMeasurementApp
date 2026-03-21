@@ -1,15 +1,15 @@
 /**
- * UC-JS-10: Populate Unit Dropdown
- * --------------------------------
- * Fills a <select> with unit options after getUnits().
- * Preconditions: selectEl is valid, units is an array.
- * Postconditions: Dropdown has one <option> per unit plus a disabled default prompt.
- * Handles empty array (only prompt) and null selectEl (logs warning).
+ * UC-JS-11: Set Active Button
+ * ---------------------------
+ * Highlights the clicked button among siblings.
+ * Preconditions: parentEl contains buttons, clickedEl is one of them.
+ * Postconditions: Only clickedEl has "active" CSS class.
+ * Handles null parentEl by returning early.
  */
 
 
 // @author Vivek
-// @version 10.0
+// @version 11.0
 
 console.log("Main Js is loaded");
 
@@ -62,8 +62,7 @@ const arithResultUnitMenu = document.getElementById("arith-result-unit-menu");
   typeBtns.forEach((btn) => {
     btn.addEventListener("click", async (e) => {
       e.preventDefault();
-      typeBtns.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
+      setActive(btn.parentElement, btn, "button");
 
       const type = typeButtons[btn.id];
       state.type = type;
@@ -80,8 +79,7 @@ const arithResultUnitMenu = document.getElementById("arith-result-unit-menu");
   // --- ACTION BUTTONS ---
   actionBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
-      actionBtns.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
+      setActive(btn.parentElement, btn, "button");
 
       state.action = btn.textContent.trim().toLowerCase();
 
@@ -300,3 +298,14 @@ const arithResultUnitMenu = document.getElementById("arith-result-unit-menu");
   await loadUnits("length");
   loadArithmeticUnits("length");
 });
+
+
+// Function to set elements active
+function setActive(parentEl, clickedEl, childSelector) {
+  if (!parentEl) return;
+
+  parentEl.querySelectorAll(childSelector)
+    .forEach(el => el.classList.remove("active"));
+
+  clickedEl.classList.add("active");
+}
