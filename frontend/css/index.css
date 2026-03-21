@@ -265,3 +265,11 @@ Arithematic CSS
     width: 100%;
   }
 }
+
+#operator-selector{
+  width: 100px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}

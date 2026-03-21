@@ -1,16 +1,17 @@
 /**
- * UC-JS-12: Show Result
- * ---------------------
- * Writes calculated value and unit to the result panel.
- * Preconditions: #result-value and #result-unit exist in DOM.
- * Postconditions: Panel displays new value/unit with highlight animation.
- * Handles comparison mode (sentence string, no unit) and null value ("—").
+ * UC-JS-13: Toggle Operator Row
+ * -----------------------------
+ * Shows or hides the operator buttons based on action mode.
+ * Preconditions: #operator-selector exists in DOM.
+ * Postconditions: Row visible only when action is "Arithmetic".
+ * Handles missing element by logging a warning.
  */
 
 
 
+
 // @author Vivek
-// @version 12.0
+// @version 13.0
 
 console.log("Main Js is loaded");
 
@@ -86,12 +87,16 @@ const arithResultUnitMenu = document.getElementById("arith-result-unit-menu");
 
       // Toggle UI
       if (state.action === "arithmetic") {
-        arithContainer.style.display = "block";
-        document.querySelector(".converter-container").style.display = "none";
-      } else {
-        arithContainer.style.display = "none";
-        document.querySelector(".converter-container").style.display = "flex";
-      }
+  arithContainer.style.display = "block";
+  document.querySelector(".converter-container").style.display = "none";
+
+  toggleOperators(true);   // ✅ SHOW
+} else {
+  arithContainer.style.display = "none";
+  document.querySelector(".converter-container").style.display = "flex";
+
+  toggleOperators(false);  // ❌ HIDE
+}
     });
   });
 
@@ -309,4 +314,19 @@ function setActive(parentEl, clickedEl, childSelector) {
     .forEach(el => el.classList.remove("active"));
 
   clickedEl.classList.add("active");
+}
+
+
+
+// toggle Operator
+
+function toggleOperators(show) {
+  const el = document.querySelector("#operator-selector");
+
+  if (!el) {
+    console.warn("operator-selector not found");
+    return;
+  }
+
+  el.style.display = show ? "flex" : "none";
 }
