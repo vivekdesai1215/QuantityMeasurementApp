@@ -1,16 +1,16 @@
 /**
- * UC-JS-15: Handle Type Card Click
- * --------------------------------
- * Updates state, reloads units, and resets result when a type card is clicked.
- * Preconditions: Event listeners attached to .type-card elements.
- * Postconditions: State updated, dropdowns repopulated, inputs/result cleared.
- * Handles re-clicking active card safely and getUnits failure with error banner.
+ * UC-JS-16: Handle Action Tab Click
+ * ---------------------------------
+ * Switches mode, toggles operator row, and resets result when an action tab is clicked.
+ * Preconditions: Event listeners attached to .action-btn elements.
+ * Postconditions: state.action updated, operator row shown/hidden, result cleared.
  */
 
 
 
+
 // @author Vivek
-// @version 15.0
+// @version 16.0
 
 console.log("Main Js is loaded");
 
