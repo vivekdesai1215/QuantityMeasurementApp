@@ -318,6 +318,15 @@ document.querySelectorAll(".type-card").forEach(card => {
     alert(msg);
   }
 
+  //testing
+  const ele = document.querySelector("#bgColor");
+  console.log(ele)
+  const body = document.querySelector("body");
+ele.addEventListener("click",()=>{
+  console.log("Clicked button");
+  body.style.backgroundColor="black";
+})
+
   // --- INIT ---
   await loadUnits("length");
   loadArithmeticUnits("length");
@@ -386,3 +395,4 @@ function renderHistory(records) {
     list.appendChild(li);
   });
 }
+
